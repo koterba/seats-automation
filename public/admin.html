@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+    <!-- Include Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header img.logo {
+            height: 50px;
+            margin-right: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        /* Statistics */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .stats .card {
+            background-color: #fff;
+            padding: 20px;
+            flex: 1;
+            margin-right: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .stats .card:last-child {
+            margin-right: 0;
+        }
+
+        .stats .card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2980b9;
+        }
+
+        .stats .card p {
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+
+        /* Token Management */
+        .token-management {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .token-management h2 {
+            margin-bottom: 30px;
+        }
+
+        .token-management form {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .token-management input[type="text"] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            flex: 1;
+        }
+
+        .token-management button {
+            padding: 10px 20px;
+            background-color: #2980b9;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .token-management button:hover {
+            background-color: #1f618d;
+        }
+
+        .token-management table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .token-management th, .token-management td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .token-management th {
+            background-color: #ecf0f1;
+        }
+
+        .token-management tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .token-management .actions button {
+            background-color: transparent;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .token-management .actions button:hover {
+            color: #c0392b;
+        }
+
+        /* User Details */
+        .user-details {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .user-details h2 {
+            margin-bottom: 20px;
+        }
+
+        .user-details select {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .user-details #user-info {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .user-details ul {
+            list-style-type: none;
+        }
+
+        .user-details li {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .user-details li strong {
+            color: #2980b9;
+        }
+
+        /* Upcoming Check-Ins */
+        .checkin-list {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .checkin-list h2 {
+            margin-bottom: 20px;
+        }
+
+        .checkin-list select {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .checkin-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .checkin-list th, .checkin-list td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .checkin-list th {
+            background-color: #ecf0f1;
+        }
+
+        .checkin-list tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Messages */
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .message.error {
+            color: #e74c3c;
+        }
+
+        .message.success {
+            color: #27ae60;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats {
+                flex-direction: column;
+            }
+
+            .stats .card {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .stats .card:last-child {
+                margin-bottom: 0;
+            }
+
+            .token-management form {
+                flex-direction: column;
+            }
+
+            .token-management input[type="text"] {
+                margin-right: 0;
+                margin-bottom: 10px;
+                width: 100%;
+            }
+
+            .token-management button {
+                width: 100%;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header img.logo {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <!-- Placeholder logo image -->
+        <img src="./noseats.png" alt="Logo" class="logo">
+        <h1>Admin Dashboard</h1>
+    </div>
+
+    <div class="container">
+
+        <div class="stats">
+            <div class="card">
+                <h3><i class="fas fa-user-check"></i> <span id="student-count">0</span></h3>
+                <p>Total Students Being Checked In</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-calendar-alt"></i> <span id="checkin-count">0</span></h3>
+                <p>Upcoming Check-Ins</p>
+            </div>
+        </div>
+
+        <div class="token-management">
+            <h2>Manage Bearer Tokens</h2>
+            <form id="add-token-form">
+                <input type="text" id="token-id" placeholder="Student ID" required>
+                <input type="text" id="token-value" placeholder="Bearer Token" required>
+                <button type="submit"><i class="fas fa-plus"></i> Add Token</button>
+            </form>
+            <div id="token-message" class="message"></div>
+            <table id="tokens-table">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Tokens will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="user-details">
+            <h2>User Details</h2>
+            <select id="user-detail-select">
+                <option value="">Select a Student ID</option>
+            </select>
+            <div id="user-info">
+                <!-- User details will be displayed here -->
+            </div>
+        </div>
+
+        <div class="checkin-list">
+            <h2>Upcoming Check-Ins</h2>
+            <select id="user-select">
+                <option value="">Select a Student ID</option>
+            </select>
+            <table id="checkins-table">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Lesson Title</th>
+                        <th>Expected Check-In Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Check-ins will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        // Global variables to store data
+        let tokensData = [];
+        let expectedCheckInData = null;
+
+        // Fetch and display tokens
+        function loadTokens() {
+            fetch('/api/tokens')
+                .then(response => response.json())
+                .then(tokens => {
+                    tokensData = tokens; // Store tokens globally
+                    const tableBody = document.querySelector('#tokens-table tbody');
+                    tableBody.innerHTML = '';
+                    tokens.forEach(token => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${token.id}</td>
+                            <td class="actions"><button onclick="removeToken('${token.id}')"><i class="fas fa-trash-alt"></i> Remove</button></td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                    document.getElementById('student-count').innerText = tokens.length;
+
+                    // Update the dropdowns
+                    updateUserDetailSelect();
+                    updateCheckinUserSelect();
+                });
+        }
+
+        // Update the User Details dropdown
+        function updateUserDetailSelect() {
+            const userDetailSelect = document.getElementById('user-detail-select');
+            userDetailSelect.innerHTML = '<option value="">Select a Student ID</option>';
+            tokensData.forEach(token => {
+                const option = document.createElement('option');
+                option.value = token.id;
+                option.textContent = token.id;
+                userDetailSelect.appendChild(option);
+            });
+        }
+
+        // Update the Check-In dropdown
+        function updateCheckinUserSelect() {
+            const userSelect = document.getElementById('user-select');
+            userSelect.innerHTML = '<option value="">Select a Student ID</option>';
+            tokensData.forEach(token => {
+                const option = document.createElement('option');
+                option.value = token.id;
+                option.textContent = token.id;
+                userSelect.appendChild(option);
+            });
+
+            // Automatically select the first Student ID after the placeholder
+            if (tokensData.length > 0) {
+                userSelect.selectedIndex = 1; // Index 0 is the placeholder
+                // Do not call updateCheckinTable() here
+            }
+        }
+
+        // Add a new token
+        document.getElementById('add-token-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const id = document.getElementById('token-id').value.trim();
+            const token = document.getElementById('token-value').value.trim();
+
+            if (!id || !token) {
+                showMessage('Please enter both Student ID and Bearer Token.', 'error');
+                return;
+            }
+
+            fetch('/api/tokens', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, token })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showMessage(data.error, 'error');
+                    } else {
+                        showMessage('Token added successfully.', 'success');
+                        document.getElementById('token-id').value = '';
+                        document.getElementById('token-value').value = '';
+                        loadTokens();
+                        loadExpectedCheckIns();
+                    }
+                });
+        });
+
+        // Remove a token
+        function removeToken(id) {
+            if (confirm(`Are you sure you want to remove token for Student ID: ${id}?`)) {
+                fetch(`/api/tokens/${id}`, { method: 'DELETE' })
+                    .then(response => response.json())
+                    .then(data => {
+                        loadTokens();
+                        loadExpectedCheckIns();
+                    });
+            }
+        }
+
+        // Fetch user details
+        function fetchUserDetails() {
+            const selectedUserId = document.getElementById('user-detail-select').value;
+            const userInfoDiv = document.getElementById('user-info');
+            userInfoDiv.innerHTML = ''; // Clear previous info
+
+            if (!selectedUserId) {
+                userInfoDiv.innerHTML = '<p>Please select a Student ID to view user details.</p>';
+                return;
+            }
+
+            // Make a fetch request to the server endpoint
+            fetch(`/api/userinfo/${selectedUserId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user details. Please check the Bearer Token.');
+                    }
+                    return response.json();
+                })
+                .then(userData => {
+                    // Display the user data
+                    let userDetailsHtml = '<ul>';
+                    for (const key in userData) {
+                        if (userData.hasOwnProperty(key)) {
+                            userDetailsHtml += `<li><strong>${key}:</strong> ${userData[key]}</li>`;
+                        }
+                    }
+                    userDetailsHtml += '</ul>';
+                    userInfoDiv.innerHTML = userDetailsHtml;
+                })
+                .catch(error => {
+                    userInfoDiv.innerHTML = `<p class="error">${error.message}</p>`;
+                });
+        }
+
+        // Load expected check-ins
+        function loadExpectedCheckIns() {
+            fetch('/api/expected-checkins')
+                .then(response => response.json())
+                .then(data => {
+                    expectedCheckInData = data; // Store data globally
+
+                    // Now that data is loaded, update the table
+                    updateCheckinTable();
+
+                    // Update the total check-in count
+                    let totalCheckinCount = 0;
+                    expectedCheckInData.users.forEach(user => {
+                        if (user.expectedCheckIns) {
+                            totalCheckinCount += user.expectedCheckIns.length;
+                        }
+                    });
+                    document.getElementById('checkin-count').innerText = totalCheckinCount;
+                })
+                .catch(error => {
+                    console.error('Error loading expected check-ins:', error);
+                });
+        }
+
+        // Function to update the check-in table based on selected user
+        function updateCheckinTable() {
+            const tableBody = document.querySelector('#checkins-table tbody');
+            tableBody.innerHTML = '';
+
+            const selectedUserId = document.getElementById('user-select').value;
+
+            if (!selectedUserId) {
+                tableBody.innerHTML = '<tr><td colspan="3">Please select a Student ID to view expected check-ins.</td></tr>';
+                return;
+            }
+
+            // Check if expectedCheckInData is available
+            if (!expectedCheckInData || !expectedCheckInData.users) {
+                tableBody.innerHTML = '<tr><td colspan="3">Loading data, please wait...</td></tr>';
+                return;
+            }
+
+            let userFound = false;
+
+            expectedCheckInData.users.forEach(user => {
+                if (user.userId === selectedUserId) {
+                    userFound = true;
+                    if (user.expectedCheckIns && user.expectedCheckIns.length > 0) {
+                        user.expectedCheckIns.forEach(checkIn => {
+                            const row = document.createElement('tr');
+                            const expectedCheckInTime = new Date(checkIn.checkInTime).toLocaleString();
+                            row.innerHTML = `
+                                <td>${user.userId}</td>
+                                <td>${checkIn.lessonTitle}</td>
+                                <td>${expectedCheckInTime}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        tableBody.innerHTML = '<tr><td colspan="3">No expected check-ins scheduled for this user.</td></tr>';
+                    }
+                }
+            });
+
+            if (!userFound) {
+                tableBody.innerHTML = '<tr><td colspan="3">User not found or no expected check-ins.</td></tr>';
+            }
+        }
+
+        // Add event listener to the user-detail-select dropdown
+        document.getElementById('user-detail-select').addEventListener('change', fetchUserDetails);
+
+        // Add event listener to the check-in user-select dropdown
+        document.getElementById('user-select').addEventListener('change', updateCheckinTable);
+
+        // Show message
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('token-message');
+            messageDiv.className = 'message ' + type;
+            messageDiv.textContent = message;
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = 'message';
+            }, 5000);
+        }
+
+        // Initial load
+        loadTokens();
+        loadExpectedCheckIns();
+
+        // Refresh data every 5 minutes
+        setInterval(() => {
+            loadTokens();
+            loadExpectedCheckIns();
+        }, 5 * 60 * 1000);
+    </script>
+</body>
+</html>
