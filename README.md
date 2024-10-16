@@ -15,6 +15,12 @@
 
 This project demonstrates the poorly made [Seats](https://www.seatssoftware.com/education-technology/seats-mobile-app-for-students/) attendance system, which allows for automated check-ins using API calls.
 
+## **Warning**
+
+This is purely eductional, I will not be explaining how to capture your bearer token.
+
+
+
 ## **Table of Contents**
 
 - [Features](#features)
