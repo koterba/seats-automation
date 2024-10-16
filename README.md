@@ -13,7 +13,7 @@
 
 ## **Overview**
 
-This project demonstrates the poorly made **Seats** attendance system, which allows for automated check-ins using API calls.
+This project demonstrates the poorly made [Seats](https://www.seatssoftware.com/education-technology/seats-mobile-app-for-students/) attendance system, which allows for automated check-ins using API calls.
 
 ## **Table of Contents**
 
