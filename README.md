@@ -5,7 +5,7 @@
 ---
 
 <p align="center">
-  <h3 align="center">Automated Attendance System Exploit</h3>
+  <h3 align="center">Automated Seats Attendance System</h3>
 </p>
 
 --- 
