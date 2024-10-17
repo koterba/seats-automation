@@ -45,6 +45,31 @@ This is purely eductional, I will not be explaining how to capture your bearer t
 
 ---
 
+## **Admin Dashboard**
+
+![Admin Dashboard Screenshot](https://files.alan0.com/dashboard.png) <!-- Replace '#' with the path to your admin dashboard image -->
+
+The admin dashboard provides an interface for:
+
+- Managing user tokens.
+- Viewing user details fetched from the API.
+- Monitoring upcoming check-ins for each user.
+- Viewing statistics like total users and upcoming check-ins.
+
+---
+
+## **Terminal Output**
+
+![Terminal Output Screenshot](https://files.alan0.com/terminalExample.png) <!-- Replace '#' with the path to your terminal output image -->
+
+The terminal displays real-time logs of the server's operations, including:
+
+- Scheduled check-ins with timestamps.
+- API request and response statuses.
+- Error messages for troubleshooting.
+
+---
+
 ## **Technical Details**
 
 The project consists of a Node.js backend using Express and a frontend admin dashboard.
@@ -124,31 +149,6 @@ The project consists of a Node.js backend using Express and a frontend admin das
 
    - Check the terminal output to monitor the server's activity.
    - Logs include scheduling information and API responses.
-
----
-
-## **Admin Dashboard**
-
-![Admin Dashboard Screenshot](https://files.alan0.com/dashboard.png) <!-- Replace '#' with the path to your admin dashboard image -->
-
-The admin dashboard provides an interface for:
-
-- Managing user tokens.
-- Viewing user details fetched from the API.
-- Monitoring upcoming check-ins for each user.
-- Viewing statistics like total users and upcoming check-ins.
-
----
-
-## **Terminal Output**
-
-![Terminal Output Screenshot](https://files.alan0.com/terminalExample.png) <!-- Replace '#' with the path to your terminal output image -->
-
-The terminal displays real-time logs of the server's operations, including:
-
-- Scheduled check-ins with timestamps.
-- API request and response statuses.
-- Error messages for troubleshooting.
 
 ---
 
