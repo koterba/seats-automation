@@ -383,7 +383,7 @@ setInterval(async () => {
 
 // Start Server
 app.listen(port, async () => {
-    console.log(info('info') + ` - Server running at http://localhost:${port}`);
+    console.log(info('info') + ` - Server running at http://localhost:${port}/admin`);
 
     loadTokens();
 
