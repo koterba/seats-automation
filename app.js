@@ -103,7 +103,7 @@ function saveTokens() {
 const fetchLessonData = async (user) => {
     const currentTime = getCurrentUnixTimestamp();
     const startDate = currentTime;
-    const endDate = currentTime + 1 * 24 * 60 * 60; // THREE HOURS AHEAD
+    const endDate = currentTime + 7 * 24 * 60 * 60; // ONE WEEK AHEAD
 
     const url = `https://01v2mobileapi.seats.cloud/api/v1/students/myself/events?startDate=${startDate}&endDate=${endDate}`;
 
