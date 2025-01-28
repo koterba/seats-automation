@@ -6,9 +6,10 @@ const fs = require('fs');
 const app = express();
 const port = 1911;
 
-const TEN_MINUTES_IN_MS = 10 * 60 * 1000;
 const THIRTY_MINUTES_IN_MS = 30 * 60 * 1000;
+const TEN_MINUTES_IN_MS = 10 * 60 * 1000;
 const FIVE_MINUTES_IN_MS = 5 * 60 * 1000;
+const ONE_MINUTE_IN_MS = 1 * 60 * 1000;
 
 const tokensFilePath = path.join(__dirname, 'tokens.json');
 let users = [];
@@ -149,7 +150,8 @@ const scheduleCheckIns = (user) => {
         // Generate random offset between -60s and +60s
         const randomOffset = Math.floor(Math.random() * 120000) - 60000; // -60000 to +60000 ms
 
-        const checkInTime = lessonStartTime - FIVE_MINUTES_IN_MS + randomOffset;
+        // Checks the user in one minute before the lessonStartTime +- 60 seconds
+        const checkInTime = lessonStartTime - ONE_MINUTE_IN_MS + randomOffset;
 
         if (checkInTime > currentTime) {
             const timeUntilCheckIn = checkInTime - currentTime;
