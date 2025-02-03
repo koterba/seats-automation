@@ -21,7 +21,7 @@ This is purely eductional, I will not be explaining how to capture your bearer t
 
 Also, make sure to add a discord webhook so you can get mobile notifications as soon as you get checked in.
 
-![Admin Dashboard Screenshot](https://files.alan0.com/seatsDiscordLog.png)
+![Admin Dashboard Screenshot](https://files.alan0.com/seatsDiscordLog1.png)
 
 ## **Table of Contents**
 
