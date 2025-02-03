@@ -4,7 +4,9 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const port = 1911;
+const port = 1911; // my favourite number. dont change it.
+
+const DISCORD_WEBHOOK_URL = 'ENTER_YOUR_DISCORD_WEBHOOK_URL';
 
 const THIRTY_MINUTES_IN_MS = 30 * 60 * 1000;
 const TEN_MINUTES_IN_MS = 10 * 60 * 1000;
@@ -15,7 +17,7 @@ const tokensFilePath = path.join(__dirname, 'tokens.json');
 let users = [];
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json()); // For parsing application/json
+app.use(express.json());
 
 function logResponseToFile(requestType, userId, response) {
     const timestamp = new Date().toISOString().replace(/:/g, '-');
@@ -34,6 +36,7 @@ Body: ${JSON.stringify(response.data, null, 2)}
 
     fs.writeFileSync(filePath, logContent.trim(), 'utf-8');
 }
+
 
 function info(action) {
     const currentTime = new Date().toLocaleTimeString();
@@ -67,6 +70,55 @@ function info(action) {
     }
 
     return `${colorCode}${actionLabel}\x1b[0m - ${currentTime}`;
+}
+
+
+async function logCheckinResult(isSuccess, user, lesson, error) {
+    if (isSuccess) {
+        const message = `Check-in successful for user ${user.id}, lesson: ${lesson.eventId}, code: ${lesson.checkinCode || 'N/A'}`;
+        console.log(`${info('checkin')} - ${message}`);
+
+        // Send to Discord if a webhook is provided
+        if (DISCORD_WEBHOOK_URL) {
+            const embed = {
+                title: 'Check-In Successful',
+                color: 3066993, // green
+                fields: [
+                    { name: 'Not me.. I don\'t use this', value: user.id, inline: false },
+                    { name: 'Lesson', value: lesson.title, inline: false },
+                    { name: 'Check-In Code', value: lesson.checkinCode ? lesson.checkinCode : 'N/A', inline: false }
+                ],
+                timestamp: new Date().toISOString()
+            };
+            try {
+                await axios.post(DISCORD_WEBHOOK_URL, { embeds: [embed] });
+            } catch (err) {
+                console.error(`${info('error')} - Failed to send Discord webhook: ${err}`);
+            }
+        }
+    } else {
+        // For check-in failures, keep your original console.error
+        console.error(`${info('error')} - Check-in failed for user ${user.id}: ${error}`);
+
+        // Optionally also notify Discord about check-in failures
+        if (DISCORD_WEBHOOK_URL) {
+            const embed = {
+                title: 'Check-In Failed',
+                color: 15158332, // red
+                fields: [
+                    { name: 'Not me.. I don\'t use this', value: user.id, inline: false },
+                    { name: 'Lesson', value: lesson.eventId.toString(), inline: false },
+                    { name: 'Error', value: `${error}`, inline: false }
+                ],
+                timestamp: new Date().toISOString()
+            };
+            try {
+                await axios.post(DISCORD_WEBHOOK_URL, { embeds: [embed] });
+            } catch (err) {
+                console.error(`${info('error')} - Failed to send Discord webhook: ${err}`);
+            }
+        }
+    }
 }
 
 const getCurrentUnixTimestamp = () => Math.floor(Date.now() / 1000);
@@ -148,7 +200,7 @@ const scheduleCheckIns = (user) => {
         const lessonStartTime = new Date(lesson.start * 1000).getTime();
 
         // Generate random offset between -60s and +60s
-        const randomOffset = Math.floor(Math.random() * 120000) - 60000; // -60000 to +60000 ms
+        const randomOffset = Math.floor(Math.random() * 120000) - 60000;
 
         // Checks the user in one minute before the lessonStartTime +- 60 seconds
         const checkInTime = lessonStartTime - ONE_MINUTE_IN_MS + randomOffset;
@@ -186,8 +238,6 @@ const scheduleCheckIns = (user) => {
     });
 };
 
-
-
 // Send Check-In Request for a User
 const sendCheckinRequest = async (user, lesson) => {
     const uuid = lesson.iBeaconData[0].uuid;
@@ -222,9 +272,11 @@ const sendCheckinRequest = async (user, lesson) => {
     try {
         const response = await axios.post('https://01v2mobileapi.seats.cloud/api/v1/students/myself/checkins', payloadString, { headers });
         logResponseToFile('CheckIn', user.id, response);
-        console.log(`${info('checkin')} - Check-in successful for user ${user.id}, lesson: ${lesson.eventId}`);
+
+        await logCheckinResult(true, user, lesson);
+
     } catch (error) {
-        console.error(`${info('error')} - Check-in failed for user ${user.id}: ${error}`);
+        await logCheckinResult(false, user, lesson, error);
     }
 };
 
@@ -331,7 +383,7 @@ app.get('/api/upcoming-lessons', async (req, res) => {
     });
 });
 
-// **New Endpoint for User Info**
+
 app.get('/api/userinfo/:id', async (req, res) => {
     const userId = req.params.id;
     const user = users.find(u => u.id === userId);
@@ -339,7 +391,6 @@ app.get('/api/userinfo/:id', async (req, res) => {
     if (!user) {
         return res.status(404).json({ error: 'User not found' });
     }
-
 
     try {
         const response = await axios.get('https://01v2mobileapi.seats.cloud/api/v1/students/myself/profile', {
