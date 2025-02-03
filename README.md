@@ -19,7 +19,9 @@ This project demonstrates the poorly made [Seats](https://www.seatssoftware.com/
 
 This is purely eductional, I will not be explaining how to capture your bearer token.
 
+Also, make sure to add a discord webhook so you can get mobile notifications as soon as you get checked in.
 
+![Admin Dashboard Screenshot](https://files.alan0.com/seatsDiscordLog.png)
 
 ## **Table of Contents**
 
@@ -42,6 +44,7 @@ This is purely eductional, I will not be explaining how to capture your bearer t
 - Admin dashboard for managing users and viewing scheduled check-ins.
 - Randomized check-in times to mimic human behavior.
 - Logs actions and responses for monitoring purposes.
+- Logging check-ins to discord as pretty embeds through a webhook
 
 ---
 
